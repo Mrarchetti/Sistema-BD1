@@ -1,7 +1,4 @@
-def actividades_populares():
-
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+def actividades_populares(conexion, cursor):
 
     cursor.execute("""
         SELECT
@@ -22,9 +19,7 @@ def actividades_populares():
     conexion.close()
 
 
-def actividades_con_cupo():
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+def actividades_con_cupo(conexion, cursor):
 
     cursor.execute("""
         SELECT
@@ -43,3 +38,7 @@ def actividades_con_cupo():
 
     cursor.close()
     conexion.close()
+
+
+def actividades_mas_populares(conexion, cursor):
+    return None

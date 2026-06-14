@@ -24,15 +24,20 @@ from reportes.reporte_info import (
     actividades_mas_populares
 )
 
-import sqlite3
+import mysql.connector
+from mysql.connector import Error
 
 
-def conectar(db_path: str = "sistema.db"):
-    """Crear y devolver una conexión SQLite.
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "rootpassword",
+    "database": "practico_redis",
+    "autocommit": False,
+}
 
-    Se usa una base de datos local por defecto. Ajustar según sea necesario.
-    """
-    return sqlite3.connect(db_path)
+def conectar():
+    return mysql.connector.connect(**DB_CONFIG)
 
 def mostrar_menu():
     print("\n===== SISTEMA DEPORTIVO =====")
@@ -245,27 +250,27 @@ def main():
 
         if opcion == "1":
 
-            menu_estudiantes()
+            menu_estudiantes(conexion,cursor)
 
         elif opcion == "2":
 
-            menu_disciplinas()
+            menu_disciplinas(conexion,cursor)
 
         elif opcion == "3":
 
-            menu_actividades()
+            menu_actividades(conexion,cursor)
 
         elif opcion == "4":
 
-            menu_inscripciones()
+            menu_inscripciones(conexion,cursor)
 
         elif opcion == "5":
 
-            menu_asistencias()
+            menu_asistencias(conexion,cursor)
 
         elif opcion == "6":
 
-            menu_reportes()
+            menu_reportes(conexion,cursor)
 
         elif opcion == "0":
 

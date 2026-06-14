@@ -1,16 +1,13 @@
-from database.conexion import obtener_conexion
-
 def crear_estudiante(
     documento,
     nombre,
     apellido,
     correo,
     carrera,
-    facultad
+    facultad,
+    conexion,
+    cursor
 ):
-
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
 
     sql = """
     INSERT INTO estudiante
@@ -35,10 +32,8 @@ def crear_estudiante(
     conexion.close()
 
 
-def listar_estudiantes():
+def listar_estudiantes(conexion, cursor):
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
 
     cursor.execute("SELECT * FROM estudiante")
 
@@ -51,10 +46,8 @@ def listar_estudiantes():
     conexion.close()
 
 
-def modificar_estudiante(id_estudiante, correo):
+def modificar_estudiante(id_estudiante, correo, conexion, cursor):
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
 
     cursor.execute("""
         UPDATE estudiante
@@ -70,10 +63,8 @@ def modificar_estudiante(id_estudiante, correo):
     conexion.close()
 
 
-def eliminar_estudiante(id_estudiante):
+def eliminar_estudiante(id_estudiante, conexion, cursor):
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
 
     cursor.execute(
         "DELETE FROM estudiante WHERE id_estudiante=%s",

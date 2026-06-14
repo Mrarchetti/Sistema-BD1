@@ -1,7 +1,4 @@
-def crear_disciplina(nombre):
-
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+def crear_disciplina(nombre, conexion, cursor):
 
     cursor.execute("""
         INSERT INTO disciplina(nombre)
@@ -16,9 +13,7 @@ def crear_disciplina(nombre):
     conexion.close()
 
 
-def listar_disciplinas():
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+def listar_disciplinas(conexion, cursor):
 
     cursor.execute("""
         SELECT *

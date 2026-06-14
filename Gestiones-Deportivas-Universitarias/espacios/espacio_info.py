@@ -1,10 +1,5 @@
-def crear_espacio(
-    nombre,
-    ubicacion
-):
+def crear_espacio(nombre,ubicacion,conexion, cursor):
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
 
     cursor.execute("""
         INSERT INTO espacio
@@ -23,9 +18,7 @@ def crear_espacio(
     conexion.close()
 
 
-def listar_espacios():
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
+def listar_espacios(conexion,cursor):
 
     cursor.execute("""
         SELECT *
