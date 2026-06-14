@@ -1,31 +1,40 @@
-from estudiantes.estudiante_service import (
+from estudiantes.estudiante_info import (
     crear_estudiante,
     listar_estudiantes
 )
 
-from disciplinas.disciplina_service import (
+from disciplinas.disciplina_info import (
     crear_disciplina,
     listar_disciplinas
 )
 
-from actividades.actividad_service import (
+from actividades.actividad_info import (
     crear_actividad
 )
 
-from inscripciones.inscripcion_service import (
+from inscripciones.inscripcion_info import (
     inscribir_estudiante
 )
 
-from asistencias.asistencia_service import (
+from asistencias.asistencia_info import (
     registrar_asistencia
 )
 
-from reportes.reporte_service import (
+from reportes.reporte_info import (
     actividades_mas_populares
 )
 
-def mostrar_menu():
+import sqlite3
 
+
+def conectar(db_path: str = "sistema.db"):
+    """Crear y devolver una conexión SQLite.
+
+    Se usa una base de datos local por defecto. Ajustar según sea necesario.
+    """
+    return sqlite3.connect(db_path)
+
+def mostrar_menu():
     print("\n===== SISTEMA DEPORTIVO =====")
     print("1. Gestionar estudiantes")
     print("2. Gestionar disciplinas")
@@ -35,10 +44,9 @@ def mostrar_menu():
     print("6. Reportes")
     print("0. Salir")
 
-    def menu_estudiantes():
 
+def menu_estudiantes():
     while True:
-
         print("\n--- ESTUDIANTES ---")
         print("1. Crear estudiante")
         print("2. Listar estudiantes")
@@ -47,7 +55,6 @@ def mostrar_menu():
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
-
             documento = input("Documento: ")
             nombre = input("Nombre: ")
             apellido = input("Apellido: ")
@@ -65,15 +72,12 @@ def mostrar_menu():
             )
 
         elif opcion == "2":
-
             listar_estudiantes()
 
         elif opcion == "0":
-
             break
 
         else:
-
             print("Opción inválida")
 
 def menu_disciplinas():
@@ -228,6 +232,8 @@ def menu_reportes():
             break
 
 def main():
+    conexion = conectar()
+    cursor = conexion.cursor()
 
     while True:
 
