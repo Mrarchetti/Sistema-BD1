@@ -28,73 +28,50 @@ CREATE TABLE espacio (
 );
 
 CREATE TABLE actividad (
-    id_actividad INT AUTO_INCREMENT PRIMARY KEY,
-
+    id_actividad INT AUTO_INCREMENT PRIMARY KEY, 
     nombre VARCHAR(100) NOT NULL,
-
     id_disciplina INT NOT NULL,
-
     id_espacio INT NOT NULL,
-
     cupo_maximo INT NOT NULL,
-
     dia VARCHAR(20) NOT NULL,
-
     horario TIME NOT NULL,
-
     estado ENUM(
         'ABIERTA',
         'CERRADA',
         'FINALIZADA',
         'CANCELADA'
     ) NOT NULL DEFAULT 'ABIERTA',
-
     FOREIGN KEY (id_disciplina)
         REFERENCES disciplina(id_disciplina),
-
     FOREIGN KEY (id_espacio)
         REFERENCES espacio(id_espacio),
-
     CHECK (cupo_maximo > 0)
 );
 
 CREATE TABLE inscripcion (
     id_inscripcion INT AUTO_INCREMENT PRIMARY KEY,
-
     id_estudiante INT NOT NULL,
-
     id_actividad INT NOT NULL,
-
     fecha_inscripcion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     estado ENUM(
         'CONFIRMADA',
         'ESPERA'
     ) NOT NULL,
-
     FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante),
-
     FOREIGN KEY (id_actividad)
         REFERENCES actividad(id_actividad),
-
     UNIQUE(id_estudiante, id_actividad)
 );
 
 CREATE TABLE asistencia (
     id_asistencia INT AUTO_INCREMENT PRIMARY KEY,
-
     id_inscripcion INT NOT NULL,
-
     fecha DATE NOT NULL,
-
     asistio BOOLEAN NOT NULL,
-
     FOREIGN KEY (id_inscripcion)
         REFERENCES inscripcion(id_inscripcion),
-
     UNIQUE(id_inscripcion, fecha)
-);
 
 # Inserts
 INSERT INTO estudiante
