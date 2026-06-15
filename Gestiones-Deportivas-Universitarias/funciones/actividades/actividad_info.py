@@ -85,3 +85,6 @@ def eliminar_actividad(id_actividad, conexion, cursor):
     except Exception as e:
         conexion.rollback()
         return False
+    
+def buscar_actividad_por_id(id_actividad, conexion, cursor):
+    return None

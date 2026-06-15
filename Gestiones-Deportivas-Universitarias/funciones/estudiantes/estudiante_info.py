@@ -49,6 +49,8 @@ def buscar_estudiante_por_documento(documento, conexion, cursor):
 
     return cursor.fetchone()
 
+def buscar_estudiante_por_id(id_estudiante, conexion, cursor):
+    return None
 
 def modificar_estudiante(
     id_estudiante,

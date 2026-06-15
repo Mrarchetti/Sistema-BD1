@@ -50,3 +50,6 @@ def eliminar_espacio(id_espacio, conexion, cursor):
     except Exception as e:
         conexion.rollback()
         return False
+
+def buscar_espacio_por_id(id_espacio, conexion, cursor):
+    return None

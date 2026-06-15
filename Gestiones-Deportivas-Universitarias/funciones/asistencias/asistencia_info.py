@@ -57,3 +57,6 @@ def eliminar_asistencia(id_asistencia, conexion, cursor):
     except Exception as e:
         conexion.rollback()
         return False
+    
+def buscar_asistencia_por_id(id_asistencia, conexion, cursor):
+    return None

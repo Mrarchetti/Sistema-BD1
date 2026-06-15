@@ -3,7 +3,8 @@ from funciones.estudiantes.estudiante_info import (
     listar_estudiantes,
     buscar_estudiante_por_documento,
     modificar_estudiante,
-    eliminar_estudiante
+    eliminar_estudiante,
+    buscar_estudiante_por_id
 )
 
 from funciones.disciplinas.disciplina_info import (
@@ -18,28 +19,32 @@ from funciones.espacios.espacio_info import (
     crear_espacio,
     listar_espacios,
     actualizar_espacio,
-    eliminar_espacio
+    eliminar_espacio,
+    buscar_espacio_por_id
 )
 
 from funciones.actividades.actividad_info import (
     crear_actividad,
     listar_actividades,
     modificar_actividad,
-    eliminar_actividad
+    eliminar_actividad,
+    buscar_actividad_por_id
 )
 
 from funciones.inscripciones.inscripcion_info import (
     inscribir_estudiante,
     listar_inscripciones,
     modificar_inscripcion,
-    eliminar_inscripcion
+    eliminar_inscripcion,
+    buscar_inscripcion_por_id
 )
 
 from funciones.asistencias.asistencia_info import (
     registrar_asistencia,
     listar_asistencias,
     modificar_asistencia,
-    eliminar_asistencia
+    eliminar_asistencia,
+    buscar_asistencia_por_id
 )
 
 from funciones.reportes.reporte_info import (
@@ -51,7 +56,11 @@ from frontend.validaciones import (
     validar_no_vacio,
     validar_entero_positivo,
     pedir_hasta_valido,
-    pedir_hasta_valido_modif
+    pedir_hasta_valido_modif,
+    pedir_fecha,
+    validar_confirmacion,
+    validar_horario,
+    validar_estado
 )
 
 def mostrar_menu():
@@ -237,6 +246,12 @@ def menu_espacios(conexion, cursor):
 
         elif opcion == "3":
             id_espacio = int(pedir_hasta_valido("ID espacio a actualizar: ", validar_entero_positivo))
+            espacio = buscar_espacio_por_id(id_espacio, conexion, cursor)
+
+            if espacio is None:
+                print("No se encontró un espacio con ese ID")
+                continue
+
             nombre = pedir_hasta_valido("Nuevo nombre: ", validar_no_vacio)
             ubicacion = pedir_hasta_valido("Nueva ubicación: ", validar_no_vacio)
 
@@ -246,6 +261,11 @@ def menu_espacios(conexion, cursor):
         elif opcion == "4":
 
             id_espacio = int(pedir_hasta_valido("ID espacio a eliminar: ", validar_entero_positivo))
+            espacio = buscar_espacio_por_id(id_espacio, conexion, cursor)
+
+            if espacio is None:
+                print("No se encontró un espacio con ese ID")
+                continue
 
             if confirmar_eliminacion(f"el espacio {id_espacio}"):
                 if eliminar_espacio(id_espacio, conexion, cursor):
@@ -298,9 +318,21 @@ def menu_inscripciones(conexion, cursor):
         elif opcion == "3":
 
             id_inscripcion = int(pedir_hasta_valido("ID inscripción a modificar: ", validar_entero_positivo))
+            if buscar_inscripcion_por_id(id_inscripcion, conexion, cursor) is None:
+                print("No se encontró una inscripción con ese ID")
+                continue
             id_estudiante = int(pedir_hasta_valido("ID estudiante: ", validar_entero_positivo))
+            if buscar_estudiante_por_id(id_estudiante, conexion, cursor) is None:
+                print("No se encontró un estudiante con ese ID")
+                continue
             id_actividad = int(pedir_hasta_valido("ID actividad: ", validar_entero_positivo))
-            estado = pedir_hasta_valido("Estado (CONFIRMADA/ESPERA): ", validar_no_vacio)
+            if buscar_actividad_por_id(id_actividad, conexion, cursor) is None:
+                print("No se encontró una actividad con ese ID")
+                continue
+            estado = pedir_hasta_valido("Estado (CONFIRMADA/ESPERA): ", validar_estado)
+            if not validar_estado(estado):
+                print("Estado inválido. Debe ser CONFIRMADA o ESPERA.")
+                continue
 
             modificar_inscripcion(
                 id_inscripcion,
@@ -315,6 +347,9 @@ def menu_inscripciones(conexion, cursor):
         elif opcion == "4":
 
             id_inscripcion = int(pedir_hasta_valido("ID inscripción a eliminar: ", validar_entero_positivo))
+            if buscar_inscripcion_por_id(id_inscripcion, conexion, cursor) is None:
+                print("No se encontró una inscripción con ese ID")
+                continue
 
             if confirmar_eliminacion(f"la inscripción {id_inscripcion}"):
                 if eliminar_inscripcion(id_inscripcion, conexion, cursor):
@@ -345,10 +380,16 @@ def menu_actividades(conexion, cursor):
 
             nombre = pedir_hasta_valido("Nombre: ", validar_no_vacio)
             id_disciplina = int(pedir_hasta_valido("ID disciplina: ", validar_entero_positivo))
+            if buscar_disciplina_por_id(id_disciplina, conexion, cursor) is None:
+                print("No se encontró una disciplina con ese ID")
+                continue
             id_espacio = int(pedir_hasta_valido("ID espacio: ", validar_entero_positivo))
+            if buscar_espacio_por_id(id_espacio, conexion, cursor) is None:
+                print("No se encontró un espacio con ese ID")
+                continue
             cupo = int(pedir_hasta_valido("Cupo máximo: ", validar_entero_positivo))
             dia = pedir_hasta_valido("Día: ", validar_no_vacio)
-            horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_no_vacio)
+            horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_horario)
 
             crear_actividad(
                 nombre,
@@ -371,11 +412,17 @@ def menu_actividades(conexion, cursor):
             id_actividad = int(pedir_hasta_valido("ID actividad a modificar: ", validar_entero_positivo))
             nombre = pedir_hasta_valido("Nombre: ", validar_no_vacio)
             id_disciplina = int(pedir_hasta_valido("ID disciplina: ", validar_entero_positivo))
+            if buscar_disciplina_por_id(id_disciplina, conexion, cursor) is None:
+                print("No se encontró una disciplina con ese ID")
+                continue
             id_espacio = int(pedir_hasta_valido("ID espacio: ", validar_entero_positivo))
+            if buscar_espacio_por_id(id_espacio, conexion, cursor) is None:
+                print("No se encontró un espacio con ese ID")
+                continue
             cupo = int(pedir_hasta_valido("Cupo máximo: ", validar_entero_positivo))
             dia = pedir_hasta_valido("Día: ", validar_no_vacio)
-            horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_no_vacio)
-            estado = pedir_hasta_valido("Estado (ABIERTA/CERRADA/FINALIZADA/CANCELADA): ", validar_no_vacio)
+            horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_horario)
+            estado = pedir_hasta_valido("Estado (ABIERTA/CERRADA/FINALIZADA/CANCELADA): ", validar_estado)
 
             modificar_actividad(
                 id_actividad,
@@ -394,6 +441,9 @@ def menu_actividades(conexion, cursor):
         elif opcion == "4":
 
             id_actividad = int(pedir_hasta_valido("ID actividad a eliminar: ", validar_entero_positivo))
+            if buscar_actividad_por_id(id_actividad, conexion, cursor) is None:
+                print("No se encontró una actividad con ese ID")
+                continue
 
             if confirmar_eliminacion(f"la actividad {id_actividad}"):
                 if eliminar_actividad(id_actividad, conexion, cursor):
@@ -424,9 +474,11 @@ def menu_asistencias(conexion, cursor):
         if opcion == "1":
 
             id_inscripcion = int(pedir_hasta_valido("ID inscripción: ", validar_entero_positivo))
-            fecha = pedir_hasta_valido("Fecha (AAAA-MM-DD): ", validar_no_vacio)
-            asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_no_vacio)
-            asistio = asistio.upper() == "S"
+            if buscar_inscripcion_por_id(id_inscripcion, conexion, cursor) is None:
+                print("No se encontró una inscripción con ese ID")
+                continue
+            fecha = pedir_fecha("Fecha (AAAA-MM-DD): ")
+            asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_confirmacion)
 
             registrar_asistencia(
                 id_inscripcion,
@@ -444,9 +496,10 @@ def menu_asistencias(conexion, cursor):
         elif opcion == "3":
 
             id_asistencia = int(pedir_hasta_valido("ID asistencia a modificar: ", validar_entero_positivo))
+
             id_inscripcion = int(pedir_hasta_valido("ID inscripción: ", validar_entero_positivo))
-            fecha = pedir_hasta_valido("Fecha (AAAA-MM-DD): ", validar_no_vacio)
-            asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_no_vacio).strip().upper() == "S"
+            fecha = pedir_fecha("Fecha (AAAA-MM-DD): ")
+            asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_confirmacion)
 
             modificar_asistencia(
                 id_asistencia,
@@ -461,6 +514,9 @@ def menu_asistencias(conexion, cursor):
         elif opcion == "4":
 
             id_asistencia = int(pedir_hasta_valido("ID asistencia a eliminar: ", validar_entero_positivo))
+            if buscar_asistencia_por_id(id_asistencia, conexion, cursor) is None:
+                print("No se encontró una asistencia con ese ID")
+                continue
 
             if confirmar_eliminacion(f"la asistencia {id_asistencia}"):
                 if eliminar_asistencia(id_asistencia, conexion, cursor):

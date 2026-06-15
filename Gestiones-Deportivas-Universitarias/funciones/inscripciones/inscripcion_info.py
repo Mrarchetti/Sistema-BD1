@@ -57,3 +57,6 @@ def eliminar_inscripcion(id_inscripcion, conexion, cursor):
     except Exception as e:
         conexion.rollback()
         return False
+    
+def buscar_inscripcion_por_id(id_inscripcion, conexion, cursor):
+    return None
