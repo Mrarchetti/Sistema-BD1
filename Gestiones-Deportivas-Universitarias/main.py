@@ -6,7 +6,8 @@ from frontend.menus import (
     menu_actividades,
     menu_inscripciones,
     menu_asistencias,
-    menu_reportes
+    menu_reportes,
+    menu_espacios
 )
 
 import mysql.connector
@@ -60,6 +61,10 @@ def main():
         elif opcion == "6":
 
             menu_reportes(conexion,cursor)
+
+        elif opcion == "7":
+
+            menu_espacios(conexion,cursor)
 
         elif opcion == "0":
             

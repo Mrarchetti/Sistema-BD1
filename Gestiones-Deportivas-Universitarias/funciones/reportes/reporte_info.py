@@ -37,4 +37,19 @@ def actividades_con_cupo(conexion, cursor):
 
 
 def actividades_mas_populares(conexion, cursor):
-    return None
+
+    cursor.execute("""
+        SELECT
+            a.id_actividad,
+            a.nombre,
+            COUNT(i.id_inscripcion) AS cantidad_confirmados
+        FROM actividad a
+        LEFT JOIN inscripcion i
+            ON a.id_actividad = i.id_actividad
+           AND i.estado = 'CONFIRMADA'
+        GROUP BY a.id_actividad, a.nombre
+        ORDER BY cantidad_confirmados DESC
+    """)
+
+    for fila in cursor.fetchall():
+        print(fila)

@@ -40,14 +40,37 @@ def listar_estudiantes(conexion, cursor):
         print(fila)
 
 
-def modificar_estudiante(id_estudiante, correo, conexion, cursor):
+def modificar_estudiante(
+    id_estudiante,
+    documento,
+    nombre,
+    apellido,
+    correo,
+    carrera,
+    facultad,
+    conexion,
+    cursor
+):
 
 
     cursor.execute("""
         UPDATE estudiante
-        SET correo=%s
+        SET documento=%s,
+            nombre=%s,
+            apellido=%s,
+            correo=%s,
+            carrera=%s,
+            facultad=%s
         WHERE id_estudiante=%s
-    """,(correo,id_estudiante))
+    """,(
+        documento,
+        nombre,
+        apellido,
+        correo,
+        carrera,
+        facultad,
+        id_estudiante
+    ))
 
     conexion.commit()
 

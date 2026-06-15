@@ -20,3 +20,28 @@ def listar_disciplinas(conexion, cursor):
 
     for fila in cursor.fetchall():
         print(fila)
+
+
+def modificar_disciplina(id_disciplina, nombre, conexion, cursor):
+
+    cursor.execute("""
+        UPDATE disciplina
+        SET nombre=%s
+        WHERE id_disciplina=%s
+    """, (nombre, id_disciplina))
+
+    conexion.commit()
+
+    print("Disciplina actualizada")
+
+
+def eliminar_disciplina(id_disciplina, conexion, cursor):
+
+    cursor.execute(
+        "DELETE FROM disciplina WHERE id_disciplina=%s",
+        (id_disciplina,)
+    )
+
+    conexion.commit()
+
+    print("Disciplina eliminada")
