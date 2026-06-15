@@ -9,7 +9,8 @@ def crear_disciplina(nombre, conexion, cursor):
 
     print("Disciplina creada")
 
-
+def buscar_disciplina_por_id(id_disciplina, conexion, cursor):
+    return None
 
 def listar_disciplinas(conexion, cursor):
 
@@ -36,12 +37,12 @@ def modificar_disciplina(id_disciplina, nombre, conexion, cursor):
 
 
 def eliminar_disciplina(id_disciplina, conexion, cursor):
-
-    cursor.execute(
-        "DELETE FROM disciplina WHERE id_disciplina=%s",
-        (id_disciplina,)
-    )
-
-    conexion.commit()
-
-    print("Disciplina eliminada")
+    try:
+        cursor.execute(
+            "DELETE FROM disciplina WHERE id_disciplina=%s",
+            (id_disciplina,)
+        )
+        conexion.commit()
+        return True
+    except Exception as e:
+        return False

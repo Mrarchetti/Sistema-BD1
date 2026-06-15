@@ -47,12 +47,13 @@ def modificar_asistencia(
 
 
 def eliminar_asistencia(id_asistencia, conexion, cursor):
-
-    cursor.execute(
-        "DELETE FROM asistencia WHERE id_asistencia=%s",
-        (id_asistencia,)
-    )
-
-    conexion.commit()
-
-    print("Asistencia eliminada")
+    try:
+        cursor.execute(
+            "DELETE FROM asistencia WHERE id_asistencia=%s",
+            (id_asistencia,)
+        )
+        conexion.commit()
+        return True
+    except Exception as e:
+        conexion.rollback()
+        return False

@@ -47,12 +47,13 @@ def modificar_inscripcion(
 
 
 def eliminar_inscripcion(id_inscripcion, conexion, cursor):
-
-    cursor.execute(
-        "DELETE FROM inscripcion WHERE id_inscripcion=%s",
-        (id_inscripcion,)
-    )
-
-    conexion.commit()
-
-    print("Inscripción eliminada")
+    try:
+        cursor.execute(
+            "DELETE FROM inscripcion WHERE id_inscripcion=%s",
+            (id_inscripcion,)
+        )
+        conexion.commit()
+        return True
+    except Exception as e:
+        conexion.rollback()
+        return False

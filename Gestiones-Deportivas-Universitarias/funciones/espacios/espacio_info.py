@@ -40,12 +40,13 @@ def actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor):
 
 
 def eliminar_espacio(id_espacio, conexion, cursor):
-
-    cursor.execute(
-        "DELETE FROM espacio WHERE id_espacio=%s",
-        (id_espacio,)
-    )
-
-    conexion.commit()
-
-    print("Espacio eliminado")
+    try:
+        cursor.execute(
+            "DELETE FROM espacio WHERE id_espacio=%s",
+            (id_espacio,)
+        )
+        conexion.commit()
+        return True
+    except Exception as e:
+        conexion.rollback()
+        return False

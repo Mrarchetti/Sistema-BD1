@@ -75,12 +75,13 @@ def modificar_actividad(
 
 
 def eliminar_actividad(id_actividad, conexion, cursor):
-
-    cursor.execute(
-        "DELETE FROM actividad WHERE id_actividad=%s",
-        (id_actividad,)
-    )
-
-    conexion.commit()
-
-    print("Actividad eliminada")
+    try:
+        cursor.execute(
+            "DELETE FROM actividad WHERE id_actividad=%s",
+            (id_actividad,)
+        )
+        conexion.commit()
+        return True
+    except Exception as e:
+        conexion.rollback()
+        return False

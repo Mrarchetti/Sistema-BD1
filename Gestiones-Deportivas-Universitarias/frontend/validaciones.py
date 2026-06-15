@@ -35,6 +35,16 @@ def validar_documento_uruguayo(documento):
 
     return True
 
+def pedir_hasta_valido(info, validador):
+    while True:
+        valor = input(info)
+        if validador(valor):
+            return valor
 
-
-
+def pedir_hasta_valido_modif(info, anterior, validador):
+    while True:
+        valor = input(info)
+        if valor == "":
+            return anterior
+        elif validador(valor):
+            return valor

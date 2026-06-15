@@ -40,6 +40,16 @@ def listar_estudiantes(conexion, cursor):
         print(fila)
 
 
+def buscar_estudiante_por_documento(documento, conexion, cursor):
+
+    cursor.execute(
+        "SELECT * FROM estudiante WHERE documento=%s",
+        (documento,)
+    )
+
+    return cursor.fetchone()
+
+
 def modificar_estudiante(
     id_estudiante,
     documento,
@@ -80,12 +90,16 @@ def modificar_estudiante(
 
 def eliminar_estudiante(id_estudiante, conexion, cursor):
 
-
-    cursor.execute(
+    try:
+        cursor.execute(
         "DELETE FROM estudiante WHERE id_estudiante=%s",
         (id_estudiante,)
-    )
+        )
 
-    conexion.commit()
+        conexion.commit()
 
-    print("Estudiante eliminado")
+    except Exception as e:
+        return False
+
+    return True
+#Retornamos True si fue exitosa la eliminacion, false en caso contrario
