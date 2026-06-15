@@ -32,7 +32,7 @@ DB_CONFIG = {
     "host": "localhost",
     "user": "root",
     "password": "rootpassword",
-    "database": "practico_redis",
+    "database": "actividades_deportivas",
     "autocommit": False,
 }
 
@@ -50,7 +50,7 @@ def mostrar_menu():
     print("0. Salir")
 
 
-def menu_estudiantes():
+def menu_estudiantes(conexion, cursor):
     while True:
         print("\n--- ESTUDIANTES ---")
         print("1. Crear estudiante")
@@ -73,11 +73,13 @@ def menu_estudiantes():
                 apellido,
                 correo,
                 carrera,
-                facultad
+                facultad,
+                conexion,
+                cursor
             )
 
         elif opcion == "2":
-            listar_estudiantes()
+            listar_estudiantes(conexion, cursor)
 
         elif opcion == "0":
             break
@@ -85,7 +87,7 @@ def menu_estudiantes():
         else:
             print("Opción inválida")
 
-def menu_disciplinas():
+def menu_disciplinas(conexion, cursor):
 
     while True:
 
@@ -100,17 +102,17 @@ def menu_disciplinas():
 
             nombre = input("Nombre: ")
 
-            crear_disciplina(nombre)
+            crear_disciplina(nombre, conexion, cursor)
 
         elif opcion == "2":
 
-            listar_disciplinas()
+            listar_disciplinas(conexion, cursor)
 
         elif opcion == "0":
 
             break
 
-def menu_actividades():
+def menu_actividades(conexion, cursor):
 
     while True:
 
@@ -140,20 +142,13 @@ def menu_actividades():
 
             horario = input("Horario (HH:MM:SS): ")
 
-            crear_actividad(
-                nombre,
-                id_disciplina,
-                id_espacio,
-                cupo,
-                dia,
-                horario
-            )
+            crear_actividad(conexion, cursor)
 
         elif opcion == "0":
 
             break
 
-def menu_inscripciones():
+def menu_inscripciones(conexion, cursor):
 
     while True:
 
@@ -173,16 +168,13 @@ def menu_inscripciones():
                 input("ID actividad: ")
             )
 
-            inscribir_estudiante(
-                id_estudiante,
-                id_actividad
-            )
+            inscribir_estudiante(conexion, cursor)
 
         elif opcion == "0":
 
             break
 
-def menu_asistencias():
+def menu_asistencias(conexion, cursor):
 
     while True:
 
@@ -208,17 +200,13 @@ def menu_asistencias():
 
             asistio = asistio.upper() == "S"
 
-            registrar_asistencia(
-                id_inscripcion,
-                fecha,
-                asistio
-            )
+            registrar_asistencia(conexion, cursor)
 
         elif opcion == "0":
 
             break
 
-def menu_reportes():
+def menu_reportes(conexion, cursor):
 
     while True:
 
@@ -230,7 +218,7 @@ def menu_reportes():
 
         if opcion == "1":
 
-            actividades_mas_populares()
+            actividades_mas_populares(conexion, cursor)
 
         elif opcion == "0":
 
@@ -273,7 +261,9 @@ def main():
             menu_reportes(conexion,cursor)
 
         elif opcion == "0":
-
+            
+            cursor.close()
+            conexion.close()
             print("Hasta luego")
             break
 

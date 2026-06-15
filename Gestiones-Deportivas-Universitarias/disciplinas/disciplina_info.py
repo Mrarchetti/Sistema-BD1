@@ -9,8 +9,6 @@ def crear_disciplina(nombre, conexion, cursor):
 
     print("Disciplina creada")
 
-    cursor.close()
-    conexion.close()
 
 
 def listar_disciplinas(conexion, cursor):
@@ -22,6 +20,3 @@ def listar_disciplinas(conexion, cursor):
 
     for fila in cursor.fetchall():
         print(fila)
-
-    cursor.close()
-    conexion.close()

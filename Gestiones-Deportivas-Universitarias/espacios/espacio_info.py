@@ -14,9 +14,6 @@ def crear_espacio(nombre,ubicacion,conexion, cursor):
 
     print("Espacio creado")
 
-    cursor.close()
-    conexion.close()
-
 
 def listar_espacios(conexion,cursor):
 
@@ -27,6 +24,3 @@ def listar_espacios(conexion,cursor):
 
     for fila in cursor.fetchall():
         print(fila)
-
-    cursor.close()
-    conexion.close()

@@ -15,8 +15,6 @@ def actividades_populares(conexion, cursor):
     for fila in cursor.fetchall():
         print(fila)
 
-    cursor.close()
-    conexion.close()
 
 
 def actividades_con_cupo(conexion, cursor):
@@ -36,8 +34,6 @@ def actividades_con_cupo(conexion, cursor):
     for fila in cursor.fetchall():
         print(fila)
 
-    cursor.close()
-    conexion.close()
 
 
 def actividades_mas_populares(conexion, cursor):

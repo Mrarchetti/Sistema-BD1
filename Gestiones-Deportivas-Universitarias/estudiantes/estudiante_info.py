@@ -28,9 +28,6 @@ def crear_estudiante(
 
     print("Estudiante creado")
 
-    cursor.close()
-    conexion.close()
-
 
 def listar_estudiantes(conexion, cursor):
 
@@ -41,9 +38,6 @@ def listar_estudiantes(conexion, cursor):
 
     for fila in resultados:
         print(fila)
-
-    cursor.close()
-    conexion.close()
 
 
 def modificar_estudiante(id_estudiante, correo, conexion, cursor):
@@ -59,8 +53,6 @@ def modificar_estudiante(id_estudiante, correo, conexion, cursor):
 
     print("Estudiante actualizado")
 
-    cursor.close()
-    conexion.close()
 
 
 def eliminar_estudiante(id_estudiante, conexion, cursor):
@@ -74,6 +66,3 @@ def eliminar_estudiante(id_estudiante, conexion, cursor):
     conexion.commit()
 
     print("Estudiante eliminado")
-
-    cursor.close()
-    conexion.close()
