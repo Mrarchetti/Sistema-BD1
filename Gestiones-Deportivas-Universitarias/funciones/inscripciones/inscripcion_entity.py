@@ -24,6 +24,7 @@ def inscribir_estudiante(id_estudiante, id_actividad, estado, conexion, cursor):
     """, (id_estudiante, id_actividad, estado))
 
     conexion.commit()
+    return True
 
 
 
@@ -71,6 +72,7 @@ def modificar_inscripcion(
     ))
 
     conexion.commit()
+    return True
 
 
 

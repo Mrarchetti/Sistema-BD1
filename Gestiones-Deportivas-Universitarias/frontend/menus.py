@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from funciones.estudiantes.estudiante_entity import (
     crear_estudiante,
     listar_estudiantes,
@@ -7,7 +9,7 @@ from funciones.estudiantes.estudiante_entity import (
     buscar_estudiante_por_id
 )
 
-from disciplinas.disciplina_entity import (
+from funciones.disciplinas.disciplina_entity import (
     crear_disciplina,
     listar_disciplinas,
     modificar_disciplina,
@@ -15,7 +17,7 @@ from disciplinas.disciplina_entity import (
     buscar_disciplina_por_id
 )
 
-from espacios.espacio_entity import (
+from funciones.espacios.espacio_entity import (
     crear_espacio,
     listar_espacios,
     actualizar_espacio,
@@ -23,7 +25,7 @@ from espacios.espacio_entity import (
     buscar_espacio_por_id
 )
 
-from actividades.actividad_entity import (
+from funciones.actividades.actividad_entity import (
     crear_actividad,
     listar_actividades,
     modificar_actividad,
@@ -31,7 +33,7 @@ from actividades.actividad_entity import (
     buscar_actividad_por_id
 )
 
-from inscripciones.inscripcion_entity import (
+from funciones.inscripciones.inscripcion_entity import (
     inscribir_estudiante,
     listar_inscripciones,
     modificar_inscripcion,
@@ -39,7 +41,7 @@ from inscripciones.inscripcion_entity import (
     buscar_inscripcion_por_id
 )
 
-from asistencias.asistencia_entity import (
+from funciones.asistencias.asistencia_entity import (
     registrar_asistencia,
     listar_asistencias,
     modificar_asistencia,
@@ -47,7 +49,7 @@ from asistencias.asistencia_entity import (
     buscar_asistencia_por_id
 )
 
-from reportes.reporte_entity import (
+from funciones.reportes.reporte_entity import (
     actividades_mas_populares
 )
 
@@ -100,7 +102,7 @@ def menu_estudiantes(conexion, cursor):
             carrera = pedir_hasta_valido("Carrera: ", validar_no_vacio)
             facultad = pedir_hasta_valido("Facultad: ", validar_no_vacio)
 
-            crear_estudiante(
+            if crear_estudiante(
                 documento,
                 nombre,
                 apellido,
@@ -109,10 +111,13 @@ def menu_estudiantes(conexion, cursor):
                 facultad,
                 conexion,
                 cursor
-            )
+            ):
+                print("Estudiante creado exitosamente")
+            else:
+                print("No se pudo crear el estudiante")
 
         elif opcion == "2":
-            listar_estudiantes(conexion, cursor)
+            pprint(listar_estudiantes(conexion, cursor))
 
         elif opcion == "3":
 
@@ -133,7 +138,7 @@ def menu_estudiantes(conexion, cursor):
             carrera = pedir_hasta_valido_modif("Nueva carrera: ", estudiante[5], validar_no_vacio)
             facultad = pedir_hasta_valido_modif("Nueva facultad: ", estudiante[6], validar_no_vacio)
 
-            modificar_estudiante(
+            if modificar_estudiante(
                 id_estudiante,
                 documento,
                 nombre,
@@ -143,7 +148,10 @@ def menu_estudiantes(conexion, cursor):
                 facultad,
                 conexion,
                 cursor
-            )
+            ):
+                print("Estudiante actualizado exitosamente")
+            else:
+                print("No se pudo actualizar el estudiante")
 
         elif opcion == "4":
             documento = pedir_hasta_valido("Documento del estudiante a eliminar: ", validar_documento_uruguayo)
@@ -186,12 +194,14 @@ def menu_disciplinas(conexion, cursor):
 
             nombre = pedir_hasta_valido("Nombre: ", validar_no_vacio)
 
-            crear_disciplina(nombre, conexion, cursor)
-            print("Disciplina creada exitosamente")
+            if crear_disciplina(nombre, conexion, cursor):
+                print("Disciplina creada exitosamente")
+            else:
+                print("No se pudo crear la disciplina")
 
         elif opcion == "2":
 
-            listar_disciplinas(conexion, cursor)
+            pprint(listar_disciplinas(conexion, cursor))
 
         elif opcion == "3":
             id_disciplina = int(pedir_hasta_valido("ID disciplina a modificar: ", validar_entero_positivo))
@@ -201,8 +211,10 @@ def menu_disciplinas(conexion, cursor):
                 print("No se encontró una disciplina con ese ID")
                 continue
             nombre = pedir_hasta_valido("Nuevo nombre: ", validar_no_vacio)
-            modificar_disciplina(id_disciplina, nombre, conexion, cursor)
-            print("Disciplina actualizada exitosamente")
+            if modificar_disciplina(id_disciplina, nombre, conexion, cursor):
+                print("Disciplina actualizada exitosamente")
+            else:
+                print("No se pudo actualizar la disciplina")
 
         elif opcion == "4":
 
@@ -243,12 +255,14 @@ def menu_espacios(conexion, cursor):
             nombre = pedir_hasta_valido("Nombre: ", validar_no_vacio)
             ubicacion = pedir_hasta_valido("Ubicación: ", validar_no_vacio)
 
-            crear_espacio(nombre, ubicacion, conexion, cursor)
-            print("Espacio creado exitosamente")
+            if crear_espacio(nombre, ubicacion, conexion, cursor):
+                print("Espacio creado exitosamente")
+            else:
+                print("No se pudo crear el espacio")
 
         elif opcion == "2":
 
-            listar_espacios(conexion, cursor)
+            pprint(listar_espacios(conexion, cursor))
 
         elif opcion == "3":
             id_espacio = int(pedir_hasta_valido("ID espacio a actualizar: ", validar_entero_positivo))
@@ -261,8 +275,10 @@ def menu_espacios(conexion, cursor):
             nombre = pedir_hasta_valido("Nuevo nombre: ", validar_no_vacio)
             ubicacion = pedir_hasta_valido("Nueva ubicación: ", validar_no_vacio)
 
-            actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor)
-            print("Espacio actualizado exitosamente")
+            if actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor):
+                print("Espacio actualizado exitosamente")
+            else:
+                print("No se pudo actualizar el espacio")
 
         elif opcion == "4":
 
@@ -308,18 +324,20 @@ def menu_inscripciones(conexion, cursor):
             id_actividad = int(pedir_hasta_valido("ID actividad: ", validar_entero_positivo))
             estado = pedir_hasta_valido("Estado (CONFIRMADA/ESPERA): ", validar_no_vacio)
 
-            inscribir_estudiante(
+            if inscribir_estudiante(
                 id_estudiante,
                 id_actividad,
                 estado,
                 conexion,
                 cursor
-            )
-            print("Inscripción creada exitosamente")
+            ):
+                print("Inscripción creada exitosamente")
+            else:
+                print("No se pudo crear la inscripción")
 
         elif opcion == "2":
 
-            listar_inscripciones(conexion, cursor)
+            pprint(listar_inscripciones(conexion, cursor))
 
         elif opcion == "3":
 
@@ -340,15 +358,17 @@ def menu_inscripciones(conexion, cursor):
                 print("Estado inválido. Debe ser CONFIRMADA o ESPERA.")
                 continue
 
-            modificar_inscripcion(
+            if modificar_inscripcion(
                 id_inscripcion,
                 id_estudiante,
                 id_actividad,
                 estado,
                 conexion,
                 cursor
-            )
-            print("Inscripción actualizada exitosamente")
+            ):
+                print("Inscripción actualizada exitosamente")
+            else:
+                print("No se pudo actualizar la inscripción")
 
         elif opcion == "4":
 
@@ -397,7 +417,7 @@ def menu_actividades(conexion, cursor):
             dia = pedir_hasta_valido("Día: ", validar_no_vacio)
             horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_horario)
 
-            crear_actividad(
+            if crear_actividad(
                 nombre,
                 id_disciplina,
                 id_espacio,
@@ -406,12 +426,14 @@ def menu_actividades(conexion, cursor):
                 horario,
                 conexion,
                 cursor
-            )
-            print("Actividad creada exitosamente")
+            ):
+                print("Actividad creada exitosamente")
+            else:
+                print("No se pudo crear la actividad")
 
         elif opcion == "2":
 
-            listar_actividades(conexion, cursor)
+            pprint(listar_actividades(conexion, cursor))
 
         elif opcion == "3":
 
@@ -430,7 +452,7 @@ def menu_actividades(conexion, cursor):
             horario = pedir_hasta_valido("Horario (HH:MM:SS): ", validar_horario)
             estado = pedir_hasta_valido("Estado (ABIERTA/CERRADA/FINALIZADA/CANCELADA): ", validar_estado)
 
-            modificar_actividad(
+            if modificar_actividad(
                 id_actividad,
                 nombre,
                 id_disciplina,
@@ -441,8 +463,10 @@ def menu_actividades(conexion, cursor):
                 estado,
                 conexion,
                 cursor
-            )
-            print("Actividad actualizada exitosamente")
+            ):
+                print("Actividad actualizada exitosamente")
+            else:
+                print("No se pudo actualizar la actividad")
 
         elif opcion == "4":
 
@@ -486,18 +510,20 @@ def menu_asistencias(conexion, cursor):
             fecha = pedir_fecha("Fecha (AAAA-MM-DD): ")
             asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_confirmacion)
 
-            registrar_asistencia(
+            if registrar_asistencia(
                 id_inscripcion,
                 fecha,
                 asistio,
                 conexion,
                 cursor
-            )
-            print("Asistencia registrada exitosamente")
+            ):
+                print("Asistencia registrada exitosamente")
+            else:
+                print("No se pudo registrar la asistencia")
 
         elif opcion == "2":
 
-            listar_asistencias(conexion, cursor)
+            pprint(listar_asistencias(conexion, cursor))
 
         elif opcion == "3":
 
@@ -507,15 +533,17 @@ def menu_asistencias(conexion, cursor):
             fecha = pedir_fecha("Fecha (AAAA-MM-DD): ")
             asistio = pedir_hasta_valido("¿Asistió? (S/N): ", validar_confirmacion)
 
-            modificar_asistencia(
+            if modificar_asistencia(
                 id_asistencia,
                 id_inscripcion,
                 fecha,
                 asistio,
                 conexion,
                 cursor
-            )
-            print("Asistencia actualizada exitosamente")
+            ):
+                print("Asistencia actualizada exitosamente")
+            else:
+                print("No se pudo actualizar la asistencia")
 
         elif opcion == "4":
 
@@ -548,7 +576,7 @@ def menu_reportes(conexion, cursor):
 
         if opcion == "1":
 
-            actividades_mas_populares(conexion, cursor)
+            pprint(actividades_mas_populares(conexion, cursor))
 
         elif opcion == "0":
 

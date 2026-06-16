@@ -14,6 +14,7 @@ def crear_espacio(nombre,ubicacion,conexion, cursor):
     """,(nombre,ubicacion))
 
     conexion.commit()
+    return True
 
 
 
@@ -45,7 +46,7 @@ def actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor):
     """, (nombre, ubicacion, id_espacio))
 
     conexion.commit()
-
+    return True
 
 
 def eliminar_espacio(id_espacio, conexion, cursor):

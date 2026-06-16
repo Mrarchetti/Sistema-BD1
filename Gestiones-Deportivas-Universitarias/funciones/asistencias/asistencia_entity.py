@@ -1,7 +1,7 @@
 from funciones.validaciones import (
     validar_entero_positivo,
     validar_fecha,
-    validar_asistio
+    validar_confirmacion
 )
 from funciones.inscripciones.inscripcion_entity import (
     buscar_inscripcion_por_id
@@ -15,7 +15,7 @@ def registrar_asistencia(id_inscripcion, fecha, asistio, conexion, cursor):
         return False
     if not validar_fecha(fecha)[0]:
         return False
-    if not validar_asistio(asistio)[0]:
+    if not validar_confirmacion(asistio)[0]:
         return False
     
     cursor.execute("""
@@ -25,6 +25,7 @@ def registrar_asistencia(id_inscripcion, fecha, asistio, conexion, cursor):
     """, (id_inscripcion, fecha, asistio))
 
     conexion.commit()
+    return True
 
 
 
@@ -51,7 +52,7 @@ def modificar_asistencia(
         return False
     if not validar_fecha(fecha)[0]:
         return False
-    if not validar_asistio(asistio)[0]:
+    if not validar_confirmacion(asistio)[0]:
         return False
     cursor.execute("""
         UPDATE asistencia
@@ -67,7 +68,7 @@ def modificar_asistencia(
     ))
 
     conexion.commit()
-
+    return True
 
 
 def eliminar_asistencia(id_asistencia, conexion, cursor):

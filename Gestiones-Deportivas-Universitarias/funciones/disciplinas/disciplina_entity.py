@@ -10,6 +10,7 @@ def crear_disciplina(nombre, conexion, cursor):
     """,(nombre,))
 
     conexion.commit()
+    return True
 
 
 def buscar_disciplina_por_id(id_disciplina, conexion, cursor):
@@ -47,7 +48,7 @@ def modificar_disciplina(id_disciplina, nombre, conexion, cursor):
     """, (nombre, id_disciplina))
 
     conexion.commit()
-
+    return True
 
 
 def eliminar_disciplina(id_disciplina, conexion, cursor):
