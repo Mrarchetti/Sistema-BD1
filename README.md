@@ -73,6 +73,24 @@ CREATE TABLE asistencia (
         REFERENCES inscripcion(id_inscripcion),
     UNIQUE(id_inscripcion, fecha)
 
+# Datos Maestros
+INSERT INTO disciplina(nombre)
+VALUES
+('Fútbol'),
+('Básquetbol'),
+('Atletismo'),
+('Vóleibol'),
+('Yoga'),
+('Funcional'),
+('Gimnasio');
+
+INSERT INTO espacio(nombre, ubicacion)
+VALUES
+('Cancha Principal', 'Campus Norte'),
+('Cancha Auxiliar', 'Campus Norte'),
+('Gimnasio Central', 'Campus Sur'),
+('Pista de Atletismo', 'Campus Este'),
+('Sala Multiuso', 'Campus Central');
 # Inserts
 INSERT INTO estudiante
 (documento,nombre,apellido,correo,carrera,facultad)
@@ -165,25 +183,6 @@ VALUES
 (1,'2026-06-01',TRUE),
 (2,'2026-06-01',FALSE),
 (4,'2026-06-02',TRUE);
-
-# Datos Maestros
-INSERT INTO disciplina(nombre)
-VALUES
-('Fútbol'),
-('Básquetbol'),
-('Atletismo'),
-('Vóleibol'),
-('Yoga'),
-('Funcional'),
-('Gimnasio');
-
-INSERT INTO espacio(nombre, ubicacion)
-VALUES
-('Cancha Principal', 'Campus Norte'),
-('Cancha Auxiliar', 'Campus Norte'),
-('Gimnasio Central', 'Campus Sur'),
-('Pista de Atletismo', 'Campus Este'),
-('Sala Multiuso', 'Campus Central');
 
 # Consultas
 # 1: 
