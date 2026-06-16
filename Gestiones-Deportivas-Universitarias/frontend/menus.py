@@ -1,4 +1,4 @@
-from funciones.estudiantes.estudiante_info import (
+from funciones.estudiantes.estudiante_entity import (
     crear_estudiante,
     listar_estudiantes,
     buscar_estudiante_por_documento,
@@ -7,7 +7,7 @@ from funciones.estudiantes.estudiante_info import (
     buscar_estudiante_por_id
 )
 
-from funciones.disciplinas.disciplina_info import (
+from disciplinas.disciplina_entity import (
     crear_disciplina,
     listar_disciplinas,
     modificar_disciplina,
@@ -15,7 +15,7 @@ from funciones.disciplinas.disciplina_info import (
     buscar_disciplina_por_id
 )
 
-from funciones.espacios.espacio_info import (
+from espacios.espacio_entity import (
     crear_espacio,
     listar_espacios,
     actualizar_espacio,
@@ -23,7 +23,7 @@ from funciones.espacios.espacio_info import (
     buscar_espacio_por_id
 )
 
-from funciones.actividades.actividad_info import (
+from actividades.actividad_entity import (
     crear_actividad,
     listar_actividades,
     modificar_actividad,
@@ -31,7 +31,7 @@ from funciones.actividades.actividad_info import (
     buscar_actividad_por_id
 )
 
-from funciones.inscripciones.inscripcion_info import (
+from inscripciones.inscripcion_entity import (
     inscribir_estudiante,
     listar_inscripciones,
     modificar_inscripcion,
@@ -39,7 +39,7 @@ from funciones.inscripciones.inscripcion_info import (
     buscar_inscripcion_por_id
 )
 
-from funciones.asistencias.asistencia_info import (
+from asistencias.asistencia_entity import (
     registrar_asistencia,
     listar_asistencias,
     modificar_asistencia,
@@ -47,20 +47,23 @@ from funciones.asistencias.asistencia_info import (
     buscar_asistencia_por_id
 )
 
-from funciones.reportes.reporte_info import (
+from reportes.reporte_entity import (
     actividades_mas_populares
 )
 
-from frontend.validaciones import (
+from funciones.validaciones import (
     validar_documento_uruguayo,
     validar_no_vacio,
     validar_entero_positivo,
-    pedir_hasta_valido,
-    pedir_hasta_valido_modif,
-    pedir_fecha,
     validar_confirmacion,
     validar_horario,
     validar_estado
+)
+
+from frontend.validar import (
+    pedir_hasta_valido, 
+    pedir_fecha, 
+    pedir_hasta_valido_modif
 )
 
 def mostrar_menu():
@@ -88,6 +91,9 @@ def menu_estudiantes(conexion, cursor):
 
         if opcion == "1":
             documento = pedir_hasta_valido("Documento: ", validar_documento_uruguayo)
+            if buscar_estudiante_por_documento(documento, conexion, cursor) is not None:
+                print("Ya existe un estudiante con ese documento")
+                continue
             nombre = pedir_hasta_valido("Nombre: ", validar_no_vacio)
             apellido = pedir_hasta_valido("Apellido: ", validar_no_vacio)
             correo = pedir_hasta_valido("Correo: ", validar_no_vacio)

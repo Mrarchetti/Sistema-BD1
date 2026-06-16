@@ -12,8 +12,7 @@ def actividades_populares(conexion, cursor):
         ORDER BY cantidad DESC
     """)
 
-    for fila in cursor.fetchall():
-        print(fila)
+    return cursor.fetchall()
 
 
 
@@ -31,8 +30,7 @@ def actividades_con_cupo(conexion, cursor):
         GROUP BY a.id_actividad
     """)
 
-    for fila in cursor.fetchall():
-        print(fila)
+    return cursor.fetchall()
 
 
 
@@ -51,5 +49,4 @@ def actividades_mas_populares(conexion, cursor):
         ORDER BY cantidad_confirmados DESC
     """)
 
-    for fila in cursor.fetchall():
-        print(fila)
+    return cursor.fetchall()

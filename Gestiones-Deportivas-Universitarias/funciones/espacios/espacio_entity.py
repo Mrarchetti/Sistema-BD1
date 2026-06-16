@@ -1,5 +1,8 @@
 def crear_espacio(nombre,ubicacion,conexion, cursor):
-
+    if not validar_no_vacio(nombre)[0]:
+        return False
+    if not validar_no_vacio(ubicacion)[0]:
+        return False
 
     cursor.execute("""
         INSERT INTO espacio
@@ -12,7 +15,7 @@ def crear_espacio(nombre,ubicacion,conexion, cursor):
 
     conexion.commit()
 
-    print("Espacio creado")
+
 
 
 def listar_espacios(conexion,cursor):
@@ -22,12 +25,19 @@ def listar_espacios(conexion,cursor):
         FROM espacio
     """)
 
-    for fila in cursor.fetchall():
-        print(fila)
+    return cursor.fetchall()
 
 
 def actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor):
-
+    if not validar_entero_positivo(id_espacio)[0]:
+        return False
+    if buscar_espacio_por_id(id_espacio, conexion, cursor) is None:
+        return False
+    if not validar_no_vacio(nombre)[0]:
+        return False
+    if not validar_no_vacio(ubicacion)[0]:
+        return False
+    
     cursor.execute("""
         UPDATE espacio
         SET nombre=%s, ubicacion=%s
@@ -36,10 +46,13 @@ def actualizar_espacio(id_espacio, nombre, ubicacion, conexion, cursor):
 
     conexion.commit()
 
-    print("Espacio actualizado")
 
 
 def eliminar_espacio(id_espacio, conexion, cursor):
+    if not validar_entero_positivo(id_espacio)[0]:
+        return False
+    if buscar_espacio_por_id(id_espacio, conexion, cursor) is None:
+        return False
     try:
         cursor.execute(
             "DELETE FROM espacio WHERE id_espacio=%s",
@@ -52,4 +65,14 @@ def eliminar_espacio(id_espacio, conexion, cursor):
         return False
 
 def buscar_espacio_por_id(id_espacio, conexion, cursor):
-    return None
+    if not validar_entero_positivo(id_espacio)[0]:
+        return None
+    if buscar_espacio_por_id(id_espacio, conexion, cursor) is None:
+        return None
+    cursor.execute("""
+        SELECT *
+        FROM espacio
+        WHERE id_espacio=%s
+    """, (id_espacio,))
+
+    return cursor.fetchone()
